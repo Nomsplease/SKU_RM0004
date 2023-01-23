@@ -11,8 +11,8 @@
  * Raspberry Pi is between 0°C and 85°C. Specifically, the CPU is qualified from -40°C to
  * 85°C and the LAN is qualified from 0°C to 70°C.
  */
-#define TEMP_WARNING  50	// 122F
-#define TEMP_CRITICAL 85	// 185F
+#define TEMP_WARNING  60	// 122F
+#define TEMP_CRITICAL 70	// 185F
 
 #define ETH0_ADDRESS    0
 #define WLAN0_ADDRESS   1

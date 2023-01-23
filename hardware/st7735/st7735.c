@@ -327,11 +327,11 @@ void lcd_display_ram(void)
   } else if ( residue >= MEMORY_WARNING && residue < MEMORY_CRITICAL ){
     lcd_write_string(40,65,residueStr,Font_8x16,ST7735_WARNING,ST7735_BLACK);
     lcd_write_string(65,65,"%",Font_8x16,ST7735_WARNING,ST7735_BLACK);
-    lcd_write_string(0,65,"MEM:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+    lcd_write_string(0,65,"MEM:",Font_8x16,ST7735_WARNING,ST7735_BLACK);
   } else if ( residue >= MEMORY_CRITICAL){
     lcd_write_string(40,65,residueStr,Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
     lcd_write_string(65,65,"%",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
-    lcd_write_string(0,65,"MEM:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+    lcd_write_string(0,65,"MEM:",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
   } else {
     //idk how we got here, but we did...
   }
@@ -341,31 +341,29 @@ void lcd_display_temp(void)
 {
   uint16_t temp = 0;
   uint8_t tempStr[10] = {0};
-  uint16_t tw_color =  ST7735_BLUE; // Temperature warning color
-
+  char* unit;
   temp=get_temperature(); 
-  sprintf(tempStr, "%d", temp);
-
-  lcd_fill_rectangle(0,35,ST7735_WIDTH,20,ST7735_BLACK);
-  lcd_write_string(30,35,"TEMP:",Font_11x18,ST7735_WHITE,ST7735_BLACK);
-  lcd_write_string(85,35,tempStr,Font_11x18,ST7735_WHITE,ST7735_BLACK);
-  if(TEMPERATURE_TYPE == FAHRENHEIT)
-  {
-    lcd_write_string(118,35,"F",Font_11x18,ST7735_WHITE,ST7735_BLACK);
+  sprintf(tempStr, "%3d", temp);
+  if(TEMPERATURE_TYPE == FAHRENHEIT) {
+    char* unit="F";
+  } else {
+    char* unit="C";
   }
-  else
-  {
-    lcd_write_string(118,35,"C",Font_11x18,ST7735_WHITE,ST7735_BLACK);
+  if (temp < TEMP_WARNING ) {
+    lcd_write_string(40,45,tempStr,Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(65,45,unit,Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(0,45,"TMP:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  } else if ( temp >= TEMP_WARNING && temp < TEMP_CRITICAL ){
+    lcd_write_string(40,45,tempStr,Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(65,45,unit,Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(0,45,"TMP:",Font_8x16,ST7735_WARNING,ST7735_BLACK);
+  } else if ( temp >= TEMP_CRITICAL){
+    lcd_write_string(40,45,tempStr,Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(65,45,unit,Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(0,45,"TMP:",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+  } else {
+    //idk how we got here, but we did...
   }
-
-  if(TEMPERATURE_TYPE == FAHRENHEIT) //Convert back to 'C' for % display p -
-  {
-    temp -= 32;
-    temp /= 1.8;
-  }
-  
-  /* Compute Color to use with graph display */
-  lcd_display_percentage(temp, TEMP_WARNING, TEMP_CRITICAL);
 }
 
 
