@@ -265,16 +265,46 @@ void lcd_display_hostname_and_ip(void)
   lcd_fill_rectangle(0,15,ST7735_WIDTH,5,ST7735_GRAY);
 }
 
+void lcd_setup_grid(void)
+{
+  // Create Divider
+  lcd_fill_rectangle(75,20,5,80,ST7735_GRAY);
+  // Setup CPU Top Left
+  lcd_write_string(0,25,"CPU:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  // Setup Temp Middle Left
+  lcd_write_string(0,45,"TMP:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  // Setup Memory Bottom Left
+  lcd_write_string(0,65,"MEM:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  // Setup SD Card Top Right
+  lcd_write_string(80,25,"SDC:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  // Setup SSD Card Top Right
+  lcd_write_string(80,45,"SSD:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  // Setup Uptime Card Top Right
+  lcd_write_string(80,65,"UPT:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+}
+
 void lcd_display_cpuLoad(void)
 {
   uint8_t  cpuLoad = 0;
   uint8_t cpuStr[10] = {0};
+  char* formattedCpuLoad;
   cpuLoad = get_cpu_message();
-  sprintf(cpuStr, "%d", cpuLoad);
-  lcd_write_string(36,35,"CPU:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
-  lcd_write_string(80,35,cpuStr,Font_8x16,ST7735_WHITE,ST7735_BLACK);
-  lcd_write_string(113,35,"%",Font_8x16,ST7735_WHITE,ST7735_BLACK);
-  lcd_display_percentage(cpuLoad, 60, 90);
+  sprintf(cpuStr, "%3d", cpuLoad);
+  if (cpuLoad < CPU_LOAD_WARNING ) {
+    lcd_write_string(40,25,cpuStr,Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(65,25,"%",Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(0,25,"CPU:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  } else if ( cpuLoad >= CPU_LOAD_WARNING && cpuLoad < CPU_LOAD_CRITICAL ){
+    lcd_write_string(40,25,cpuStr,Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(65,25,"%",Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(0,25,"CPU:",Font_8x16,ST7735_WARNING,ST7735_BLACK);
+  } else if ( cpuLoad >= CPU_LOAD_CRITICAL){
+    lcd_write_string(40,25,cpuStr,Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(65,25,"%",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(0,25,"CPU:",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+  } else {
+    //idk how we got here, but we did...
+  }
 }
 
 

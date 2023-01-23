@@ -35,16 +35,19 @@ int main(void)
 	sleep(1);
 	lcd_blank_display(); //Setup blank screen
 	lcd_display_hostname_and_ip(); //Setup display with static hostname
+	lcd_setup_grid(); //Setup Display grid
 	while(running == true)
 	{
-		lcd_display(symbol);
-		sleep(1);
-        sleep(1);
-		symbol++;
-		if(symbol==4)
-        {
-          symbol=0;
-        }
+		lcd_display(0);
+		sleep(2);
+		// lcd_display(symbol);
+		// sleep(1);
+        // sleep(1);
+		// symbol++;
+		// if(symbol==4)
+        // {
+        //   symbol=0;
+        // }
 	}
 	return 0;
 }
