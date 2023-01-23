@@ -123,6 +123,11 @@
 #define ST7735_COLOR565(r, g, b)                                               \
   (((r & 0xF8) << 8) | ((g & 0xFC) << 3) | ((b & 0xF8) >> 3))
 
+//Custom Colors
+#define ST7735_NO_ISSUE 0x7FEB
+#define ST7735_WARNING 0xFEAB
+#define ST7735_CRITICAL 0xFB2B
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -141,6 +146,7 @@ void i2c_burst_transfer(uint8_t* buff, uint32_t length);
 void lcd_display(uint8_t symbol);
 void lcd_blank_display(void);
 void lcd_display_hostname_and_ip(void);
+void lcd_setup_grid(void);
 void lcd_display_cpuLoad(void);
 void lcd_display_ram(void);
 void lcd_display_temp(void);
