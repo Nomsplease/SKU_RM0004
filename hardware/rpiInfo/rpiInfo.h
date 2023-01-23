@@ -14,12 +14,14 @@
 /**********Use Celsius for limits check converts**************/
 #define TEMP_WARNING  50	// 122F
 #define TEMP_CRITICAL 85	// 185F
+
+
 /**********Select display temperature type**************/
 
 /**********Select display network IP type**************/
 #define ETH0_ADDRESS    0
 #define WLAN0_ADDRESS   1
-#define IPADDRESS_TYPE  ETH0_ADDRESS  // or WLAN0_ADDRESS for WiFi
+#define IPADDRESS_TYPE ETH0_ADDRESS //  WLAN0_ADDRESS
 /**********Select display network IP type**************/
 
 
