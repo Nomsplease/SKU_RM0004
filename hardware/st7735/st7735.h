@@ -140,7 +140,7 @@ void lcd_write_char(uint16_t x, uint16_t y, char ch, FontDef font,uint16_t color
 void i2c_burst_transfer(uint8_t* buff, uint32_t length);
 void lcd_display(uint8_t symbol);
 void lcd_blank_display(void);
-void lcd_display_hostname(void);
+void lcd_display_hostname_and_ip(void);
 void lcd_display_cpuLoad(void);
 void lcd_display_ram(void);
 void lcd_display_temp(void);

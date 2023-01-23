@@ -34,7 +34,7 @@ int main(void)
 	}
 	sleep(1);
 	lcd_blank_display(); //Setup blank screen
-	lcd_display_hostname(); //Setup display with static hostname
+	lcd_display_hostname_and_ip(); //Setup display with static hostname
 	while(running == true)
 	{
 		lcd_display(symbol);
