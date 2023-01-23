@@ -27,6 +27,8 @@
 #define CPU_LOAD_WARNING 90
 #define CPU_LOAD_CRITICAL 95
 
+#define MEMORY_WARNING 80
+#define MEMORY_CRITICAL 90
 
 
 char* get_ip_address(void);

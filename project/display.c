@@ -38,7 +38,8 @@ int main(void)
 	lcd_setup_grid(); //Setup Display grid
 	while(running == true)
 	{
-		lcd_display(0);
+		lcd_display_cpuLoad(); //Update CPU Load
+		lcd_display_ram(); //Update Memory info
 		sleep(2);
 		// lcd_display(symbol);
 		// sleep(1);

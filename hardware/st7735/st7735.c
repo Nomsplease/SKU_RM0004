@@ -319,12 +319,22 @@ void lcd_display_ram(void)
   uint8_t residueStr[10] = {0};
   get_cpu_memory(&Totalram,&freeram);
   residue = (Totalram - freeram)/Totalram*100;
-  sprintf(residueStr, "%d", residue);
-  lcd_fill_rectangle(0,35,ST7735_WIDTH,20,ST7735_BLACK);
-  lcd_write_string(36,35,"RAM:",Font_11x18,ST7735_WHITE,ST7735_BLACK);
-  lcd_write_string(80,35,residueStr,Font_11x18,ST7735_WHITE,ST7735_BLACK);
-  lcd_write_string(113,35,"%",Font_11x18,ST7735_WHITE,ST7735_BLACK);
-  lcd_display_percentage(residue, 80, 90);
+  sprintf(residueStr, "%3d", residue);
+  if (residue < MEMORY_WARNING ) {
+    lcd_write_string(40,65,residueStr,Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(65,65,"%",Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(0,65,"MEM:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  } else if ( residue >= MEMORY_WARNING && residue < MEMORY_CRITICAL ){
+    lcd_write_string(40,65,residueStr,Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(65,65,"%",Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(0,65,"MEM:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  } else if ( residue >= MEMORY_CRITICAL){
+    lcd_write_string(40,65,residueStr,Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(65,65,"%",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(0,65,"MEM:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  } else {
+    //idk how we got here, but we did...
+  }
 }
 
 void lcd_display_temp(void)
