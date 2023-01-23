@@ -296,7 +296,9 @@ void lcd_display_cpuLoad(void)
     lcd_write_string(36, 35, "CPU:", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     lcd_write_string(80, 35, cpuStr, Font_11x18, ST7735_WHITE, ST7735_BLACK);
     lcd_write_string(113, 35, "%", Font_11x18, ST7735_WHITE, ST7735_BLACK);
-    lcd_display_percentage(cpuLoad, ST7735_GREEN);
+    if(cpuLoad > 90) lcd_display_percentage(cpuLoad,ST7735_RED);
+      else if(cpuLoad > 60) lcd_display_percentage(cpuLoad,ST7735_YELLOW);
+        else lcd_display_percentage(cpuLoad,ST7735_GREEN);
 }
 
 void lcd_display_ram(void)
@@ -314,7 +316,13 @@ void lcd_display_ram(void)
     lcd_write_string(36, 35, "RAM:", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     lcd_write_string(80, 35, residueStr, Font_11x18, ST7735_WHITE, ST7735_BLACK);
     lcd_write_string(113, 35, "%", Font_11x18, ST7735_WHITE, ST7735_BLACK);
-    lcd_display_percentage(residue, ST7735_YELLOW);
+    if(residue >= 90)
+     lcd_display_percentage(residue,ST7735_RED);
+    else
+     if(residue >= 80)
+      lcd_display_percentage(residue,ST7735_YELLOW);
+      else
+       lcd_display_percentage(residue,ST7735_GREEN);
 }
 
 void lcd_display_temp(void)
@@ -339,7 +347,23 @@ void lcd_display_temp(void)
         temp -= 32;
         temp /= 1.8;
     }
-    lcd_display_percentage((uint16_t)temp, ST7735_RED);
+    /* Compute Color to use with graph display */
+    if( (uint16_t) temp >= TEMP_CRITICAL)
+    {
+       tw_color = ST7735_RED;
+    }
+    else
+    {
+       if ( (uint16_t) temp >=  TEMP_WARNING)
+       {
+          tw_color = ST7735_YELLOW;
+       }
+        else 
+       {
+          tw_color = ST7735_GREEN;
+       }
+    }
+    lcd_display_percentage((uint16_t) temp, tw_color); 
 }
 
 void lcd_display_disk(void)
@@ -367,5 +391,10 @@ void lcd_display_disk(void)
     lcd_write_string(30, 35, "DISK:", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     lcd_write_string(85, 35, residueStr, Font_11x18, ST7735_WHITE, ST7735_BLACK);
     lcd_write_string(118, 35, "%", Font_11x18, ST7735_WHITE, ST7735_BLACK);
-    lcd_display_percentage(residue, ST7735_BLUE);
+    if(residue >= 90)
+      lcd_display_percentage(residue,ST7735_RED);
+      else if(residue >= 80)
+          lcd_display_percentage(residue,ST7735_YELLOW);
+          else
+              lcd_display_percentage(residue,ST7735_GREEN);
 }
