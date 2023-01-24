@@ -375,24 +375,51 @@ void lcd_display_disk(void)
   uint32_t sdMemSize = 0; 
   uint32_t sdUseMemSize = 0;
 
-  uint16_t memTotal = 0;
-  uint16_t useMemTotal = 0;
-  uint16_t residue = 0;
-  uint8_t residueStr[10] = {0};
+  uint16_t SDUsed = 0;
+  uint8_t SDUsedStr[10] = {0};
+  uint16_t SSDUsed = 0;
+  uint8_t SSDUsedStr[10] = {0};
   
   get_sd_memory(&sdMemSize,&sdUseMemSize);
   get_hard_disk_memory(&diskMemSize,&diskUseMemSize);
 
-  memTotal = sdMemSize+diskMemSize;
-  useMemTotal = sdUseMemSize+diskUseMemSize;
-  residue = useMemTotal * 1.0 / memTotal * 100;
-  sprintf(residueStr, "%d", residue);
+  SDUsed = sdUseMemSize * 1.0 / sdMemSize * 100;
+  SSDUsed = diskUseMemSize * 1.0 / diskMemSize * 100;
 
-  lcd_fill_rectangle(0,35,ST7735_WIDTH,20,ST7735_BLACK);
-  lcd_write_string(30,35,"DISK:",Font_11x18,ST7735_WHITE,ST7735_BLACK);
-  lcd_write_string(85,35,residueStr,Font_11x18,ST7735_WHITE,ST7735_BLACK);
-  lcd_write_string(118,35,"%",Font_11x18,ST7735_WHITE,ST7735_BLACK);
-  lcd_display_percentage(residue, 80, 90);
+  sprintf(SDUsedStr, "%3d", SDUsed);
+  sprintf(SSDUsedStr, "%3d", SSDUsed);
+
+  if (SDUsed < SD_WARNING ) {
+    lcd_write_string(120,25,SDUsedStr,Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(145,25,"%",Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(80,25,"SDC:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  } else if ( SDUsed >= SD_WARNING && SDUsed < SD_CRITICAL ){
+    lcd_write_string(120,25,SDUsedStr,Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(145,25,"%",Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(80,25,"SDC:",Font_8x16,ST7735_WARNING,ST7735_BLACK);
+  } else if ( SDUsed >= SD_CRITICAL){
+    lcd_write_string(120,25,SDUsedStr,Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(145,25,"%",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(80,25,"SDC:",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+  } else {
+    //idk how we got here, but we did...
+  }
+
+  if (SSDUsed < SSD_WARNING ) {
+    lcd_write_string(120,45,SSDUsedStr,Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(145,45,"%",Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(80,45,"SSD:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
+  } else if ( SSDUsed >= SSD_WARNING && SSDUsed < SSD_CRITICAL ){
+    lcd_write_string(120,45,SSDUsedStr,Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(145,45,"%",Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(80,45,"SSD:",Font_8x16,ST7735_WARNING,ST7735_BLACK);
+  } else if ( SSDUsed >= SSD_CRITICAL){
+    lcd_write_string(120,45,SSDUsedStr,Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(145,45,"%",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(80,45,"SSD:",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+  } else {
+    //idk how we got here, but we did...
+  }
 }
 
 

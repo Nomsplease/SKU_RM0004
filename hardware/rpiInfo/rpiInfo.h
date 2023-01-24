@@ -30,6 +30,11 @@
 #define MEMORY_WARNING 80
 #define MEMORY_CRITICAL 90
 
+#define SD_WARNING 70
+#define SD_CRITICAL 80
+
+#define SSD_WARNING 70
+#define SSD_CRITICAL 80
 
 char* get_ip_address(void);
 void get_sd_memory(uint32_t *MemSize, uint32_t *freesize);
