@@ -341,24 +341,22 @@ void lcd_display_temp(void)
 {
   uint16_t temp = 0;
   uint8_t tempStr[10] = {0};
-  char* unit;
+  char* unit="C";
   temp=get_temperature(); 
-  sprintf(tempStr, "%3d", temp);
+  sprintf(tempStr, "%2d", temp);
   if(TEMPERATURE_TYPE == FAHRENHEIT) {
     char* unit="F";
-  } else {
-    char* unit="C";
   }
   if (temp < TEMP_WARNING ) {
-    lcd_write_string(40,45,tempStr,Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
+    lcd_write_string(47,45,tempStr,Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
     lcd_write_string(65,45,unit,Font_8x16,ST7735_NO_ISSUE,ST7735_BLACK);
     lcd_write_string(0,45,"TMP:",Font_8x16,ST7735_WHITE,ST7735_BLACK);
   } else if ( temp >= TEMP_WARNING && temp < TEMP_CRITICAL ){
-    lcd_write_string(40,45,tempStr,Font_8x16,ST7735_WARNING,ST7735_BLACK);
+    lcd_write_string(47,45,tempStr,Font_8x16,ST7735_WARNING,ST7735_BLACK);
     lcd_write_string(65,45,unit,Font_8x16,ST7735_WARNING,ST7735_BLACK);
     lcd_write_string(0,45,"TMP:",Font_8x16,ST7735_WARNING,ST7735_BLACK);
   } else if ( temp >= TEMP_CRITICAL){
-    lcd_write_string(40,45,tempStr,Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
+    lcd_write_string(47,45,tempStr,Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
     lcd_write_string(65,45,unit,Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
     lcd_write_string(0,45,"TMP:",Font_8x16,ST7735_CRITICAL,ST7735_BLACK);
   } else {

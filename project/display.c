@@ -40,7 +40,7 @@ int main(void)
 	{
 		lcd_display_cpuLoad(); //Update CPU Load
 		lcd_display_ram(); //Update Memory info
-		// lcd_display_temp(); //Update Temp
+		lcd_display_temp(); //Update Temp
 		lcd_display_disk(); //Update disks
 		sleep(2);
 		// lcd_display(symbol);
